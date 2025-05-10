@@ -1,16 +1,24 @@
-import os
-import xml
-import json
-import yaml
+import os, sys
+import xml, json, yaml
 
 ALLOWED_EXTENSIONS = ['.xml', '.json', '.yaml', '.yml']
 
 def main():
-    input_file = 'test.xml'
-    output_file = 'test.json'
+    if len(sys.argv) < 3:
+        print("Usage: python main.py <input_file> <output_file>")
+        return 1
+    
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
     converter(input_file, output_file)
 
 def converter(input_file, output_file):
+    if not os.path.isfile(input_file):
+        raise FileNotFoundError(f"Input file not found: {input_file}")
+    if os.path.isfile(output_file):
+        raise FileExistsError(f"Output file already exists: {output_file}")
+
     try:
         input_ext = os.path.splitext(input_file)[1]
         output_ext = os.path.splitext(output_file)[1]
