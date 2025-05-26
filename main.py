@@ -49,5 +49,11 @@ def converter(input_file, output_file):
                 json.dump(input_data, output)
             except Exception as e:
                 raise ValueError(f"Error writing JSON file: {e}")
+    elif output_ext in ['.yaml', '.yml']:
+        with open(output_file, 'w') as output:
+            try:
+                yaml.safe_dump(input_data, output)
+            except Exception as e:
+                raise ValueError(f"Error writing YAML file: {e}")
 
 main()
