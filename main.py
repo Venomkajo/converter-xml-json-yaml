@@ -42,6 +42,12 @@ def converter(input_file, output_file):
                 input_data = yaml.safe_load(input)
             except Exception as e:
                 raise ValueError(f"Error reading YAML file: {e}")
+    elif input_ext == '.xml':
+        with open(input_file, 'r') as input:
+            try:
+                input_data = xml.etree.ElementTree.parse(input).getroot()
+            except Exception as e:
+                raise ValueError(f"Error reading XML file: {e}")
             
     if output_ext == '.json':
         with open(output_file, 'w') as output:
