@@ -5,7 +5,7 @@ ALLOWED_EXTENSIONS = ['.xml', '.json', '.yaml', '.yml']
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: python main.py <input_file> <output_file>")
+        print("Usage: main.py <input_file> <output_file>")
         return 1
     
     input_file = sys.argv[1]
@@ -29,5 +29,12 @@ def converter(input_file, output_file):
         raise ValueError(f"Unsupported input file extension: {input_ext}")
     if output_ext not in ALLOWED_EXTENSIONS:
         raise ValueError(f"Unsupported output file extension: {output_ext}")
+    
+    if input_ext == '.json':
+        with open(input_file, 'r') as infile:
+            try:
+                input_data = json.load(infile)
+            except Exception as e:
+                raise ValueError(f"Error reading JSON file: {e}")
 
 main()
