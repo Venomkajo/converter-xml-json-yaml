@@ -1,5 +1,6 @@
 import os, sys
-import xml, json, yaml
+import json, yaml
+import xml.etree.ElementTree as ET
 
 ALLOWED_EXTENSIONS = ['.xml', '.json', '.yaml', '.yml']
 
@@ -45,7 +46,7 @@ def converter(input_file, output_file):
     elif input_ext == '.xml':
         with open(input_file, 'r') as input:
             try:
-                input_data = xml.etree.ElementTree.parse(input).getroot()
+                input_data = ET.parse(input).getroot()
             except Exception as e:
                 raise ValueError(f"Error reading XML file: {e}")
             
@@ -61,5 +62,11 @@ def converter(input_file, output_file):
                 yaml.safe_dump(input_data, output)
             except Exception as e:
                 raise ValueError(f"Error writing YAML file: {e}")
+    elif output_ext == '.xml':
+        with open(output_file, 'w') as output:
+            try:
+                ET.ElementTree(input_data).write(output)
+            except Exception as e:
+                raise ValueError(f"Error writing XML file: {e}")
 
 main()
