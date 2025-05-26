@@ -1,6 +1,6 @@
 import os, sys
 import json, yaml
-import xml.etree.ElementTree as ET
+import xmltodict
 
 ALLOWED_EXTENSIONS = ['.xml', '.json', '.yaml', '.yml']
 
@@ -46,7 +46,7 @@ def converter(input_file, output_file):
     elif input_ext == '.xml':
         with open(input_file, 'r') as input:
             try:
-                input_data = ET.parse(input).getroot()
+                input_data = xmltodict.parse(input.read())
             except Exception as e:
                 raise ValueError(f"Error reading XML file: {e}")
             
@@ -65,7 +65,8 @@ def converter(input_file, output_file):
     elif output_ext == '.xml':
         with open(output_file, 'w') as output:
             try:
-                ET.ElementTree(input_data).write(output)
+                input_data = {'root': input_data}
+                xmltodict.unparse(input_data, output)
             except Exception as e:
                 raise ValueError(f"Error writing XML file: {e}")
 
