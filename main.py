@@ -36,6 +36,12 @@ def converter(input_file, output_file):
                 input_data = json.load(input)
             except Exception as e:
                 raise ValueError(f"Error reading JSON file: {e}")
+    elif input_ext in ['.yaml', '.yml']:
+        with open(input_file, 'r') as input:
+            try:
+                input_data = yaml.safe_load(input)
+            except Exception as e:
+                raise ValueError(f"Error reading YAML file: {e}")
             
     if output_ext == '.json':
         with open(output_file, 'w') as output:
