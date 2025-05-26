@@ -31,10 +31,17 @@ def converter(input_file, output_file):
         raise ValueError(f"Unsupported output file extension: {output_ext}")
     
     if input_ext == '.json':
-        with open(input_file, 'r') as infile:
+        with open(input_file, 'r') as input:
             try:
-                input_data = json.load(infile)
+                input_data = json.load(input)
             except Exception as e:
                 raise ValueError(f"Error reading JSON file: {e}")
+            
+    if output_ext == '.json':
+        with open(output_file, 'w') as output:
+            try:
+                json.dump(input_data, output)
+            except Exception as e:
+                raise ValueError(f"Error writing JSON file: {e}")
 
 main()
